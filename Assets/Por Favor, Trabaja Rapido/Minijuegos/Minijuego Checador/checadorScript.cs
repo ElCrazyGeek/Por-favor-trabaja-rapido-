@@ -6,6 +6,7 @@ public class checadorScript : MonoBehaviour, IInteractable
    [SerializeField] private float tiempoMaximo;
 
    [SerializeField] private bool chequeado;
+   [SerializeField] private bool estaManteniendo;
 
    private Material materialInstancia;
     void Start()
@@ -18,12 +19,29 @@ public class checadorScript : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        if(tiempoMantenido > tiempoMaximo && !chequeado)
+        
+        
+        if(tiempoMantenido >= tiempoMaximo && !chequeado)
         {
             materialInstancia.SetFloat("_isActive", 0f);
             Debug.Log("Checado");
             chequeado = true;
         }
+
+        
+        
+
+        if (estaManteniendo && !chequeado)
+        {
+            tiempoMantenido += Time.deltaTime;
+        } else
+        {
+            tiempoMantenido-=Time.deltaTime;
+        }
+
+        tiempoMantenido= Mathf.Clamp(tiempoMantenido,0f,tiempoMaximo);
+
+        
     }
 
 
@@ -31,6 +49,11 @@ public class checadorScript : MonoBehaviour, IInteractable
 
     public void OnHold()
     {
-        tiempoMantenido += Time.deltaTime;
+      estaManteniendo=true;
+    }
+
+    public void OnCancel()
+    {
+        estaManteniendo=false;
     }
 }

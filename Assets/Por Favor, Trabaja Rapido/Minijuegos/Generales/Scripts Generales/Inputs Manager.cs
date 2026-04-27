@@ -18,6 +18,11 @@ public class InputsManager : MonoBehaviour
             manteniendoClick = true;
             
             objetoActual = ObtenerInteractuable();
+
+            if(objetoActual == null)
+            {
+                manteniendoClick=false; 
+            }
         }
 
         if (context.canceled)
@@ -25,9 +30,15 @@ public class InputsManager : MonoBehaviour
             float duracionClick = Time.time - inicioClick;
             manteniendoClick = false;
 
-            if (objetoActual != null && duracionClick < 0.3f)
+            if (objetoActual != null)
             {
+                if(duracionClick < 0.3f)
+                {          
                 objetoActual.OnClick();
+                } else
+                {
+                    objetoActual.OnCancel();
+                }
             }
 
             objetoActual = null; 

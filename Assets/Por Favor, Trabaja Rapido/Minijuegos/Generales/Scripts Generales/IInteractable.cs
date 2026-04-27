@@ -4,4 +4,7 @@ public interface IInteractable
 {
     void OnClick();
     void OnHold();
+    void OnCancel();
+
+    
 }
