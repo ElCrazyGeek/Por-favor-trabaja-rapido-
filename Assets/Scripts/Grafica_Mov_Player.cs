@@ -12,7 +12,7 @@ public partial class MovimientoGrafica : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             Saltar();
         }
@@ -23,4 +23,6 @@ public partial class MovimientoGrafica : MonoBehaviour
 
         Jugador.linearVelocity = Vector2.up * fuerzaSalto;
     }
+
+    
 }
