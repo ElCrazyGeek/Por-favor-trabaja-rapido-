@@ -8,16 +8,16 @@ public class ObstaculoVentas : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.left * velocidad * Time.deltaTime);
+       transform.Translate(Vector3.left * ObstaculoSpawner.velocidadGlobal * Time.deltaTime);
 
-        // Si el jugador NO lo tocó y el cubo ya pasó de largo
         if (!fueAtravesado && transform.position.x < limiteFalloX)
         {
             fueAtravesado = true;
             VentasManager.Instance.ModificarVentas(-10f);
-            GetComponent<Renderer>().material.color = Color.red;
+            if(GetComponent<Renderer>() != null)
+                GetComponent<Renderer>().material.color = Color.red;
         }
 
-        if (transform.position.x < -20f) Destroy(gameObject);
+        if (transform.position.x < -25f) Destroy(gameObject);
     }
 }
