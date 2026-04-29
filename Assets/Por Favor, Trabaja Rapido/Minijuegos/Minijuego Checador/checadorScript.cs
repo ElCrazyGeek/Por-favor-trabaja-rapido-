@@ -25,6 +25,7 @@ public class checadorScript : MonoBehaviour, IInteractable
         {
             materialInstancia.SetFloat("_isActive", 0f);
             Debug.Log("Checado");
+            managerGlobal.instance.ganoMinijuego();
             chequeado = true;
         }
 

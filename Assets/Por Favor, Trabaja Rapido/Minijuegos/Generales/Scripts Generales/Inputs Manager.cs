@@ -6,6 +6,10 @@ public class InputsManager : MonoBehaviour
     [SerializeField] private Camera camara;
     [SerializeField] private LayerMask Interaccion;
 
+    [SerializeField] private float tiempoHold;
+
+    private bool isHolding;
+
     private float inicioClick;
     private bool manteniendoClick;
     private IInteractable objetoActual; 
@@ -16,6 +20,7 @@ public class InputsManager : MonoBehaviour
         {
             inicioClick = Time.time;
             manteniendoClick = true;
+            isHolding = false;
             
             objetoActual = ObtenerInteractuable();
 
@@ -32,10 +37,12 @@ public class InputsManager : MonoBehaviour
 
             if (objetoActual != null)
             {
-                if(duracionClick < 0.3f)
+
+                 if(!isHolding)
                 {          
-                objetoActual.OnClick();
-                } else
+                    objetoActual.OnClick();
+                } 
+                else
                 {
                     objetoActual.OnCancel();
                 }
@@ -49,6 +56,12 @@ public class InputsManager : MonoBehaviour
     {
         if (manteniendoClick && objetoActual != null)
         {  
+            float tiempoActual = Time.time - inicioClick;
+
+            if(tiempoActual >= tiempoHold)
+            {
+                isHolding = true; 
+            }
             objetoActual.OnHold();
         }
     }
