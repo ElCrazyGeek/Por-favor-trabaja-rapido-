@@ -8,20 +8,33 @@ public class managerGlobal : MonoBehaviour
     public static managerGlobal instance;
 
     [SerializeField] private TextMeshProUGUI textoTiempo;
-    [SerializeField] private TextMeshProUGUI textoIncio;
+    [SerializeField] private TextMeshProUGUI textoInicio;
+
+    [SerializeField] public bool mostrarTexto;
+
+    
+
+    
+    
    
 
     [SerializeField] private GameObject panelUI;
+    
     void Awake()
     {
         instance = this;
     }
 
-    // Update is called once per frame
-    public void iniciarMinijuego(string textoInicial)
+    public void empezoMinijuego()
     {
         panelUI.SetActive(true);
-        textoIncio.text = textoInicial;
+         mostrarTexto = true;
+    }
+
+    // Update is called once per frame
+    public void textoInicial(string textoInicial)
+    { 
+        textoInicio.text = textoInicial;
     }
 
     public void actualizarTiempo(float tiempoRestante)
@@ -37,6 +50,13 @@ public class managerGlobal : MonoBehaviour
     public void perdioMinijuego()
     {
        
+    }
+
+    public void ocutarTextoInicial()
+    {
+        mostrarTexto = false;
+        textoInicio.text = "";
+        textoInicio.gameObject.SetActive(false);
     }
 
     
