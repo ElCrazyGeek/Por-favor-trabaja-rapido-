@@ -6,7 +6,7 @@ public class VentasManager : MonoBehaviour
 {
     public static VentasManager Instance; // Singleton para acceder desde otros scripts
 
-    public float ventasActuales = 0f;
+    public float ventasActuales = 1f;
     public float tiempoRestante = 20f;
     public Slider barraVentas;
     public TextMeshProUGUI textoTiempo;

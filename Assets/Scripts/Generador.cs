@@ -4,8 +4,9 @@ public class ObstaculoSpawner : MonoBehaviour
 {
     public GameObject prefabObjetivo;
     public float tiempoEntreSpawn = 1.5f;
-    public float rangoY = 0f;// Altura máxima y mínima
-    public float posicionXSpawn = 15f; // Donde aparecen a la derecha
+    public float rangoY = 0f;
+    public float posicionXSpawn = 15f; 
+    
 
     void Start()
     {

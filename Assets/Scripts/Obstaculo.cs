@@ -14,8 +14,8 @@ public class ObstaculoVentas : MonoBehaviour
         if (!fueAtravesado && transform.position.x < limiteFalloX)
         {
             fueAtravesado = true;
-            VentasManager.Instance.ModificarVentas(-10f); // Penalización
-            GetComponent<Renderer>().material.color = Color.red; // Feedback visual
+            VentasManager.Instance.ModificarVentas(-10f);
+            GetComponent<Renderer>().material.color = Color.red;
         }
 
         if (transform.position.x < -20f) Destroy(gameObject);
