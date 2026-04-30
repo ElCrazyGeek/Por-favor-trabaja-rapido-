@@ -10,13 +10,18 @@ public class checadorConfig : MonoBehaviour
     void Start()
     {
         managerGlobal.instance.empezoMinijuego();
-        StartCoroutine(mostrarTextoInicial());
+        StopAllCoroutines();
+        StartCoroutine(managerGlobal.instance.mostrarTextoInicial("¡Checa!"));
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (managerGlobal.instance.puedeJugar)
+        {
         tiempoMaximo-=Time.deltaTime;
+        }
 
 
         if(tiempoMaximo <= 0f)
@@ -26,23 +31,11 @@ public class checadorConfig : MonoBehaviour
 
         managerGlobal.instance.actualizarTiempo(tiempoMaximo);
         
-        if(managerGlobal.instance.mostrarTexto)
-        {
-            managerGlobal.instance.textoInicial("¡Checa!");
-        } else
-        {
-            managerGlobal.instance.ocutarTextoInicial();
-        }
-        
+      
     }
 
 
-    IEnumerator mostrarTextoInicial()
-    {
-         managerGlobal.instance.textoInicial("¡Checa!");
-        yield return new WaitForSeconds(1f);
-        managerGlobal.instance.ocutarTextoInicial();
-    }
+   
 
 
     

@@ -33,15 +33,19 @@ public class TextoAnimacion : MonoBehaviour
                 var orig = vertices[charInfo.vertexIndex + j];
                 
                 
-                float intensidad = 4f; 
-                
-                Vector3 temblor = new Vector3(
-                    Random.Range(-intensidad, intensidad), 
-                    Random.Range(-intensidad, intensidad), 
-                    0
-                );
+               float ruido = Mathf.PerlinNoise(i, Time.time * 2f);
 
-                vertices[charInfo.vertexIndex + j] = orig + temblor;
+                float tiempo = Time.time;   
+                float intensidad = 20f;
+              
+
+            Vector3 offset = new Vector3(
+                (Mathf.Sin(tiempo * 10f + i) + ruido) * intensidad,
+                (Mathf.Cos(tiempo * 10f + i) + ruido) * intensidad,
+                0
+            );
+
+                vertices[charInfo.vertexIndex + j] = orig + offset;
             }
         }
 

@@ -32,7 +32,7 @@ public class checadorScript : MonoBehaviour, IInteractable
         
         
 
-        if (estaManteniendo && !chequeado)
+        if (estaManteniendo && !chequeado && managerGlobal.instance.puedeJugar)
         {
             tiempoMantenido += Time.deltaTime;
         } else

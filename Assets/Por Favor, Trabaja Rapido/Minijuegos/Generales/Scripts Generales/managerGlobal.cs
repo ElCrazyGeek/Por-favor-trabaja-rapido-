@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using System.Collections;
 using Unity.VisualScripting;
 
 public class managerGlobal : MonoBehaviour
@@ -12,23 +12,29 @@ public class managerGlobal : MonoBehaviour
 
     [SerializeField] public bool mostrarTexto;
 
-    
+    private Vector3 posicionInicialTexto;
+
+    public bool puedeJugar;
 
     
     
    
 
     [SerializeField] private GameObject panelUI;
+    [SerializeField] private GameObject panelDerrota;
+    [SerializeField] private GameObject panelVictoria;
     
     void Awake()
     {
         instance = this;
+        posicionInicialTexto = textoInicio.transform.localPosition;
     }
 
     public void empezoMinijuego()
     {
         panelUI.SetActive(true);
          mostrarTexto = true;
+        puedeJugar = true;
     }
 
     // Update is called once per frame
@@ -44,20 +50,62 @@ public class managerGlobal : MonoBehaviour
 
     public void ganoMinijuego()
     {
-       
+        
+        textoInicio.gameObject.SetActive(false);
+        textoTiempo.gameObject.SetActive(false);
+        panelVictoria.SetActive(true);
+        puedeJugar = false;
     }
 
     public void perdioMinijuego()
     {
        
+        textoInicio.gameObject.SetActive(false);
+        textoTiempo.gameObject.SetActive(false);
+        panelDerrota.SetActive(true);
+        puedeJugar = false;
     }
 
-    public void ocutarTextoInicial()
+     public IEnumerator mostrarTextoInicial(string texto)
     {
-        mostrarTexto = false;
+        textoInicial(texto);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(salidaTexto());
+    }
+
+    IEnumerator salidaTexto()
+    {
+        textoInicio.transform.localPosition = posicionInicialTexto;
+
+        float duracion = 0.3f;
+        float tiempo = 0f;
+        
+
+        Vector3 posicionActual = textoInicio.transform.localPosition;
+        Vector3 posicionFinal = posicionActual + new Vector3(1200f, 1200f, 0);
+
+        while(tiempo < duracion)
+        {
+            tiempo+= Time.deltaTime;
+            float t = tiempo / duracion;
+            t = t*t*t;
+            textoInicio.transform.localPosition = Vector3.Lerp(posicionActual, posicionFinal, t);
+            yield return null;
+        }
+
+          
         textoInicio.text = "";
         textoInicio.gameObject.SetActive(false);
+        textoInicio.transform.localPosition = posicionInicialTexto;
+        mostrarTexto = false;
+
+
     }
+
+
+ 
+
+   
 
     
 }
