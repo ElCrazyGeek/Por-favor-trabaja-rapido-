@@ -5,12 +5,21 @@ using System.Collections;
 
 public class checadorConfig : MonoBehaviour
 {
-    [SerializeField] private float tiempoMaximo;
+    [SerializeField] private float tiempoMaximo; 
+
+       [Header ("Archivos de Audio")]
+   [SerializeField] private AudioClip sfxDerrota;
+   private bool yaSono;
+
+   
    
     void Start()
     {
         managerGlobal.instance.empezoMinijuego();
+        cambiarInterfaces.instance.obtenerPrefab(gameObject);
+
         StopAllCoroutines();
+        
         StartCoroutine(managerGlobal.instance.mostrarTextoInicial("¡Checa!"));
     }
 
@@ -26,7 +35,14 @@ public class checadorConfig : MonoBehaviour
 
         if(tiempoMaximo <= 0f)
         {
-            managerGlobal.instance.perdioMinijuego();
+            if(!yaSono){
+            audioManager.instance.reproducirSFX(sfxDerrota);
+            yaSono = true;
+            
+        }
+             managerGlobal.instance.perdioMinijuego();
+           
+            
         }
 
         managerGlobal.instance.actualizarTiempo(tiempoMaximo);

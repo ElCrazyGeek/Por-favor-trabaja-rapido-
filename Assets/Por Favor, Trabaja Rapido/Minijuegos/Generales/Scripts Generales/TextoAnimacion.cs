@@ -5,6 +5,10 @@ public class TextoAnimacion : MonoBehaviour
 {
 
     [SerializeField] private TMP_Text textoComponente;
+
+   
+
+    private bool yaSono;
     
     void Start()
     {
@@ -44,9 +48,15 @@ public class TextoAnimacion : MonoBehaviour
                 (Mathf.Cos(tiempo * 10f + i) + ruido) * intensidad,
                 0
             );
+                
 
                 vertices[charInfo.vertexIndex + j] = orig + offset;
+
+               
             }
+           
+                
+               
         }
 
         for(int i=0; i< textInfo.meshInfo.Length; i++)

@@ -19,10 +19,16 @@ public class managerGlobal : MonoBehaviour
     
     
    
-
+   
     [SerializeField] private GameObject panelUI;
     [SerializeField] private GameObject panelDerrota;
     [SerializeField] private GameObject panelVictoria;
+
+    [Header ("Archivos de Audio")]
+     [SerializeField] private AudioClip sfxSwoosh;
+     [SerializeField] private AudioClip sfxStart;
+
+
     
     void Awake()
     {
@@ -30,17 +36,25 @@ public class managerGlobal : MonoBehaviour
         posicionInicialTexto = textoInicio.transform.localPosition;
     }
 
+  
+
+    
+
     public void empezoMinijuego()
     {
         panelUI.SetActive(true);
          mostrarTexto = true;
         puedeJugar = true;
+        
+        StartCoroutine(ReproducirInicio());
+       
     }
 
     // Update is called once per frame
     public void textoInicial(string textoInicial)
     { 
         textoInicio.text = textoInicial;
+        
     }
 
     public void actualizarTiempo(float tiempoRestante)
@@ -64,11 +78,13 @@ public class managerGlobal : MonoBehaviour
         textoTiempo.gameObject.SetActive(false);
         panelDerrota.SetActive(true);
         puedeJugar = false;
+
     }
 
      public IEnumerator mostrarTextoInicial(string texto)
     {
         textoInicial(texto);
+         
         yield return new WaitForSeconds(1f);
         StartCoroutine(salidaTexto());
     }
@@ -93,14 +109,25 @@ public class managerGlobal : MonoBehaviour
             yield return null;
         }
 
+        audioManager.instance.reproducirSFX(sfxSwoosh);
+
           
         textoInicio.text = "";
         textoInicio.gameObject.SetActive(false);
         textoInicio.transform.localPosition = posicionInicialTexto;
         mostrarTexto = false;
 
+      
 
     }
+
+      IEnumerator ReproducirInicio()
+        {
+            yield return null;
+                audioManager.instance.reproducirSFX(sfxStart);
+        }
+
+ 
 
 
  

@@ -3,10 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class cambiarInterfaces : MonoBehaviour
 {
+
+    public static cambiarInterfaces instance;
+
+    public GameObject prefab;
     
-    void Start()
+    void Awake()
     {
-        
+        instance = this;
     }
 
     // Update is called once per frame
@@ -18,11 +22,20 @@ public class cambiarInterfaces : MonoBehaviour
 
     public void volverMenu()
     {
+        
         SceneManager.LoadScene("Menu Principal");
     }
 
     public void continuar()
     {
-        
+         Destroy(prefab);
+         prefab = null;
     }
+
+    public void obtenerPrefab(GameObject prefabMinijuego)
+    {
+        prefab = prefabMinijuego;
+    }   
+
+    
 }
