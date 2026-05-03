@@ -2,22 +2,30 @@ using UnityEngine;
 
 public class ObstaculoVentas : MonoBehaviour
 {
-    public float velocidad = 6f;
+    public float velocidad = 500f;
     public bool fueAtravesado = false;
-    public float limiteFalloX = -5f; // Posición X detrás del jugador
+    public float limiteFalloX = -600f;
+
+    RectTransform rect;
+
+    void Awake()
+    {
+        rect = GetComponent<RectTransform>();
+    }
 
     void Update()
     {
-       transform.Translate(Vector3.left * ObstaculoSpawner.velocidadGlobal * Time.deltaTime);
+        rect.anchoredPosition += Vector2.left * velocidad * Time.deltaTime;
 
-        if (!fueAtravesado && transform.position.x < limiteFalloX)
+        if (!fueAtravesado && rect.anchoredPosition.x < limiteFalloX)
         {
             fueAtravesado = true;
             VentasManager.Instance.ModificarVentas(-10f);
-            if(GetComponent<Renderer>() != null)
-                GetComponent<Renderer>().material.color = Color.red;
         }
 
-        if (transform.position.x < -25f) Destroy(gameObject);
+        if (rect.anchoredPosition.x < -1200f)
+        {
+            Destroy(gameObject);
+        }
     }
 }

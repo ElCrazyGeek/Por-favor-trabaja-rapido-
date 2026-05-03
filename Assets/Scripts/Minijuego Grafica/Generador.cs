@@ -1,62 +1,63 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Rendering;
 
 public class ObstaculoSpawner : MonoBehaviour
 {
-    public GameObject prefabObjetivo;
+    public RectTransform contenedor;
+    public GameObject prefab;
 
-    [Header("Ritmo de Aparición")]
     public float tiempoMinInicial = 1.2f;
-    public float tiempoMaxInicial = 2.0f;
+    public float tiempoMaxInicial = 2f;
     public float tiempoMinFinal = 0.5f;
     public float tiempoMaxFinal = 0.8f;
+    public float velocidadInicial = 400f;
+    public float velocidadFinal = 800f;
 
-    [Header("Velocidad de Movimiento")]
-    public float velInicial = 6f;
-    public float velFinal = 12f; // El doble de rápido al final
-    public static float velocidadGlobal; // Variable estática para que los cubos la lean
+    public float duracion = 20f;
 
-    [Header("Configuración")]
-    public float limiteY = 3.5f;
-    public float posicionXSpawn = 15f;
-    public float duracionTotalJuego = 20f;
-
-    private float tiempoTranscurrido = 0f;
+    float tiempo;
 
     void Start()
     {
-        velocidadGlobal = velInicial; // Resetear al empezar
-        StartCoroutine(SpawnRutina());
+        StartCoroutine(Rutina());
     }
 
-    IEnumerator SpawnRutina()
+    IEnumerator Rutina()
     {
         yield return new WaitForSeconds(1f);
 
-        while (tiempoTranscurrido < duracionTotalJuego)
+        while (tiempo < duracion)
         {
-            SpawnearCubo();
+            float progreso = tiempo / duracion;
 
-            // Calculamos el progreso (0 a 1)
-            float progreso = Mathf.Clamp01(tiempoTranscurrido / duracionTotalJuego);
+            float espera = Random.Range(
+                Mathf.Lerp(tiempoMinInicial, tiempoMinFinal, progreso),
+                Mathf.Lerp(tiempoMaxInicial, tiempoMaxFinal, progreso)
+            );
 
-            // AUMENTO DE VELOCIDAD: Actualizamos la variable estática
-            velocidadGlobal = Mathf.Lerp(velInicial, velFinal, progreso);
+            Spawn(progreso);
 
-            // AUMENTO DE RITMO: Calculamos la espera para el siguiente
-            float minActual = Mathf.Lerp(tiempoMinInicial, tiempoMinFinal, progreso);
-            float maxActual = Mathf.Lerp(tiempoMaxInicial, tiempoMaxFinal, progreso);
-            float esperaAleatoria = Random.Range(minActual, maxActual);
-            
-            tiempoTranscurrido += esperaAleatoria; 
-            yield return new WaitForSeconds(esperaAleatoria);
+            tiempo += espera;
+            yield return new WaitForSeconds(espera);
         }
     }
 
-    void SpawnearCubo()
+    void Spawn(float progreso)
     {
-        float alturaAleatoria = Random.Range(-limiteY, limiteY);
-        Vector3 posicion = new Vector3(posicionXSpawn, alturaAleatoria, transform.position.z);
-        Instantiate(prefabObjetivo, posicion, Quaternion.identity);
+    GameObject obj = Instantiate(prefab, contenedor);
+    RectTransform rt = obj.GetComponent<RectTransform>();
+
+    float alto = contenedor.rect.height;
+
+    float y = Random.Range(20f, 220f);    
+    rt.anchoredPosition = new Vector2(850f, y);
+
+    float vel = Mathf.Lerp(velocidadInicial, velocidadFinal, progreso);
+
+    if (obj.TryGetComponent(out ObstaculoVentas obstaculo))
+    {
+        obstaculo.velocidad = vel;
     }
+}
 }

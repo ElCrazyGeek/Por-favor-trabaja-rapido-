@@ -7,42 +7,58 @@ public class VentasManager : MonoBehaviour
 {
     public static VentasManager Instance;
 
-    public float ventasActuales = 50f; // Empieza a la mitad para dar margen
+    public float ventasActuales = 50f;
     public float tiempoRestante = 20f;
-    
-    [Header("Referencias UI")]
+
+    [Header("UI")]
     public Slider barraVentas;
     public TextMeshProUGUI textoTiempo;
     public Image fondoTotalBarra;
     public Gradient gradienteColor;
-    
-    [Header("Final del Juego")]
-    public GameObject panelFinal; 
+
+    [Header("Final")]
+    public GameObject panelFinal;
     public TextMeshProUGUI textoFinal;
-    public CameraShake sacudidor; 
+    public CameraShake sacudidor;
     public AudioSource musicaFondo;
 
-    private bool juegoTerminado = false;
+    bool juegoTerminado = false;
 
-    void Awake() { Instance = this; }
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     void Update()
     {
         if (juegoTerminado) return;
 
-        // 1. Actualizar el Slider (Asegúrate que Max Value sea 100 en el Inspector)
+        ActualizarUI();
+        ActualizarTiempo();
+    }
+
+    void ActualizarUI()
+    {
         barraVentas.value = ventasActuales;
 
-        // 2. Actualizar el color del fondo
-        float porcentaje = (100 -ventasActuales) / 100f;
-        if(fondoTotalBarra != null)
-            fondoTotalBarra.color = gradienteColor.Evaluate(porcentaje);
+        float porcentaje = ventasActuales / 100f;
 
-        // 3. Manejo del tiempo
+        if (fondoTotalBarra != null)
+            fondoTotalBarra.color = gradienteColor.Evaluate(porcentaje);
+    }
+
+    void ActualizarTiempo()
+    {
+        tiempoRestante -= Time.deltaTime;
+
         if (tiempoRestante > 0)
         {
-            tiempoRestante -= Time.deltaTime;
-            textoTiempo.text = "Tiempo restante: " + tiempoRestante.ToString("F1") + "s";
+            textoTiempo.text = "Tiempo: " + tiempoRestante.ToString("F1");
         }
         else
         {
@@ -53,21 +69,25 @@ public class VentasManager : MonoBehaviour
     public void ModificarVentas(float cantidad)
     {
         ventasActuales = Mathf.Clamp(ventasActuales + cantidad, 0, 100);
+
+        // Feedback visual rápido (sacudida leve)
+        if (sacudidor != null)
+        {
+            StartCoroutine(sacudidor.Shake(0.15f, 0.05f));
+        }
     }
 
     void FinalizarJuego()
     {
         juegoTerminado = true;
-        Time.timeScale = 0;
         StartCoroutine(SecuenciaFinal());
     }
 
     IEnumerator SecuenciaFinal()
     {
-        if (musicaFondo != null) musicaFondo.Stop(); 
-        
-        // Usamos WaitForSecondsRealtime por si pausaste el Time.timeScale
-        yield return new WaitForSecondsRealtime(1f); 
+        if (musicaFondo != null) musicaFondo.Stop();
+
+        yield return new WaitForSeconds(1f);
 
         panelFinal.SetActive(true);
 
@@ -75,13 +95,16 @@ public class VentasManager : MonoBehaviour
         {
             textoFinal.text = "COMPLETADO";
             textoFinal.color = Color.green;
-            if(sacudidor != null) StartCoroutine(sacudidor.Shake(0.3f, 0.1f));
         }
         else
         {
             textoFinal.text = "¡DESPEDIDO!";
             textoFinal.color = Color.red;
-            if(sacudidor != null) StartCoroutine(sacudidor.Shake(0.8f, 0.4f));
+        }
+
+        if (sacudidor != null)
+        {
+            StartCoroutine(sacudidor.Shake(0.5f, 0.2f));
         }
     }
 }

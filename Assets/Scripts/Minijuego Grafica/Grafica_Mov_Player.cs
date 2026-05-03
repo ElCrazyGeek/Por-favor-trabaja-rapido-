@@ -2,47 +2,28 @@ using UnityEngine;
 
 public partial class MovimientoGrafica : MonoBehaviour
 {
-    public Rigidbody Jugador;
-    public float fuerzaSalto = 5f;
+    public RectTransform rect;
+    public float fuerzaSalto = 350f;
+    public float gravedad = -900f;
 
-
-    void Start()
-    {
-    }
+    float velocidadY;
 
     void Update()
     {
         if (Input.GetMouseButton(0))
         {
-            Saltar();
+            velocidadY = fuerzaSalto;
         }
+
+        velocidadY += gravedad * Time.deltaTime;
+        rect.anchoredPosition += Vector2.up * velocidadY * Time.deltaTime;
+
+        // Limitar dentro del área
+        float limite = 300f;
+        if (rect.anchoredPosition.y > limite)
+            rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, limite);
+
+        if (rect.anchoredPosition.y < -limite)
+            rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, -limite);
     }
-
-    void Saltar()
-    {
-
-        Jugador.linearVelocity = Vector2.up * fuerzaSalto;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        // Verificamos si chocamos con un objetivo
-        if (other.CompareTag("Objetivo"))
-        {
-            ObstaculoVentas objetivo = other.GetComponent<ObstaculoVentas>();
-
-            // Si el objetivo existe y aún no ha sido atravesado
-            if (objetivo != null && !objetivo.fueAtravesado)
-            {
-                objetivo.fueAtravesado = true; // Lo marcamos para que no cuente como fallo después
-                VentasManager.Instance.ModificarVentas(15f); // Sumamos puntos
-                
-                // Feedback visual: verde al tocarlo
-                other.GetComponent<Renderer>().material.color = Color.green;
-                Debug.Log("¡Venta exitosa!");
-            }
-        }
-    }
-
-    
 }
