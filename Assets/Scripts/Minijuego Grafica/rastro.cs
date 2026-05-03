@@ -3,37 +3,19 @@ using UnityEngine;
 
 public class rastro : MonoBehaviour
 {
-    public LineRenderer line;
-    public float distanciaMinima = 0.1f;
-
-    private List<Vector3> puntos = new List<Vector3>();
-
-    void Start()
-    {
-       line.positionCount = 1;
-        line.SetPosition(0, transform.position);
-    }
+    public TrailRenderer trail;
+    public RectTransform jugador;
 
     void Update()
     {
-        if (puntos.Count == 0)
-        {
-            AgregarPunto();
-            return;
-        }
-
-        float distancia = Vector3.Distance(transform.position, puntos[puntos.Count - 1]);
-
-        if (distancia > distanciaMinima)
-        {
-            AgregarPunto();
-        }
+        // El rastro debe seguir la posición del jugador en el mundo para no desfasarse
+        // Esto asegura que la línea se dibuje exactamente donde está el cuadrito verde
+        transform.position = jugador.position;
     }
 
-    void AgregarPunto()
+    // Función útil para tu Manager: Limpia la línea si el jugador pierde
+    public void LimpiarGrafica()
     {
-        puntos.Add(transform.position);
-        line.positionCount = puntos.Count;
-        line.SetPositions(puntos.ToArray());
+        trail.Clear();
     }
 }

@@ -23,7 +23,7 @@ public class ObstaculoVentas : MonoBehaviour
             VentasManager.Instance.ModificarVentas(-10f);
         }
 
-        if (rect.anchoredPosition.x < -1200f)
+        if (rect.anchoredPosition.x < -350f)
         {
             Destroy(gameObject);
         }

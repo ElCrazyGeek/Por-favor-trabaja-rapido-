@@ -50,8 +50,8 @@ public class ObstaculoSpawner : MonoBehaviour
 
     float alto = contenedor.rect.height;
 
-    float y = Random.Range(20f, 220f);    
-    rt.anchoredPosition = new Vector2(850f, y);
+    float y = Random.Range(-120f, 220f);    
+    rt.anchoredPosition = new Vector2(950f, y);
 
     float vel = Mathf.Lerp(velocidadInicial, velocidadFinal, progreso);
 
