@@ -3,56 +3,82 @@ using UnityEngine.UI;
 
 public class Documentos : MonoBehaviour
 {
+   public enum TipoDocumento { Normal, Despido }
+    public TipoDocumento tipo = TipoDocumento.Normal;
+
     public bool Valido;
     private Color color;
     public Color colorA;
     public Color colorR;
-    
+    public Color colorD;
     private Image imagenFondo;
+    private bool seEstaYendo = false;
+    private float velocidadVuelo = 1200f;
+    private Vector3 direccionRecogida = new Vector3(1.2f, 0.5f, 0);
 
-    void Start() // Cambiado de Awake a Start
+void Start() 
     {
         imagenFondo = GetComponent<Image>();
         
-        // Generamos un valor aleatorio y lo asignamos
-        Valido = (Random.value > 0.5f);
+        // 1. Decidir si es un documento de despido (ej. 15% de probabilidad)
+        if (Random.value < 0.15f) 
+        {
+            tipo = TipoDocumento.Despido;
+        }
+        else 
+        {
+            tipo = TipoDocumento.Normal;
+            // Si es normal, decidimos si es válido o no
+            Valido = (Random.value > 0.5f);
+        }
 
         ConfigurarDocumento();
     }
 
-    public void ConfigurarDocumento()
+    void Update()
+{
+    if (seEstaYendo)
     {
-        // Usamos colores un poco más vivos para que se note el cambio
-        if (Valido)
+        // Movimiento hacia el lado
+        transform.Translate(direccionRecogida * velocidadVuelo * Time.deltaTime, Space.World);
+        
+        // Rotación
+        transform.Rotate(Vector3.forward * 150f * Time.deltaTime);
+
+        // Efecto de encogimiento
+        transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 4f * Time.deltaTime);
+    }
+}
+
+public void ConfigurarDocumento()
+    {
+        Color colorFinal;
+
+        if (tipo == TipoDocumento.Despido)
         {
-            color = colorA;
+            colorFinal = colorD;
         }
         else
         {
-            color = colorR;
+            colorFinal = Valido ? colorA : colorR;
         }
 
         if (imagenFondo != null)
         {
-            imagenFondo.color = color;
+            colorFinal.a = 1f; 
+            imagenFondo.color = colorFinal;
         }
     }
-
-    // Dentro de Documentos.cs
-public void SalirDeEscena()
-{
-    // Una forma simple: activar una bandera para que en el Update se mueva solo
-    seEstaYendo = true;
-    Destroy(gameObject, 2f); // Se destruye en 2 segundos
-}
-
-bool seEstaYendo = false;
-void Update()
-{
-    if(seEstaYendo)
+    public void SerRecogido() // Puedes renombrarla a "SerRecogido" si prefieres
     {
-        // Se mueve hacia la derecha rápidamente
-        transform.Translate(Vector3.right * 1000f * Time.deltaTime);
+        seEstaYendo = true;
+        
+        // Desactivamos el Raycast para que no puedas volver a sellarlo mientras se va
+        if(GetComponent<Image>() != null) 
+            GetComponent<Image>().raycastTarget = false;
+
+        // Lo destruimos cuando ya está fuera de vista
+        Destroy(gameObject, 0.8f);
     }
-}
+
 }

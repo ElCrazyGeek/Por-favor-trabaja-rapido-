@@ -4,17 +4,23 @@ using System.Collections.Generic;
 
 public class Sellos_Manager : MonoBehaviour
 {
-    public GameObject prefabAprobado; // Prefab de texto que dice APROBADO
-    public GameObject prefabRechazado; // Prefab de texto que dice RECHAZADO
+    [Header("Prefabs de Sello Visual")]
+    public GameObject prefabAprobado;
+    public GameObject prefabRechazado;
+
+    public GameManager_Sellos gameManager;
+    
+
+
 
     void Update()
     {
-        // Clic Izquierdo = Aprobar
+        // Clic Izquierdo = Intentar Aprobar
         if (Input.GetMouseButtonDown(0)) 
         {
             Sellar(true);
         }
-        // Clic Derecho = Rechazar
+        // Clic Derecho = Intentar Rechazar
         else if (Input.GetMouseButtonDown(1)) 
         {
             Sellar(false);
@@ -33,30 +39,32 @@ public class Sellos_Manager : MonoBehaviour
         {
             if (hit.gameObject.CompareTag("Documento"))
             {
-                var doc = hit.gameObject.GetComponent<Documentos>();
-                
-                // Elegimos qué sello poner
+                Documentos doc = hit.gameObject.GetComponent<Documentos>();
+
+                // 1. REGLA ESPECIAL: ¿Es un documento de Despido y lo aprobaste?
+                if (doc.tipo == Documentos.TipoDocumento.Despido && intentandoAprobar)
+                {
+                    gameManager.FinDelJuego("DESPEDIDO");
+                    return;
+                }
+
+                // 2. REPORTAR AL GAME MANAGER
+                // Si intentas aprobar algo que es válido, o rechazar algo inválido, es acierto.
+                bool fueCorrecto = (intentandoAprobar == doc.Valido);
+                gameManager.RegistrarAcierto(fueCorrecto);
+
+                // 3. EFECTO VISUAL (Estampado)
                 GameObject prefabUsar = intentandoAprobar ? prefabAprobado : prefabRechazado;
-                
-                // Instanciamos el sello visual
                 GameObject marca = Instantiate(prefabUsar, hit.gameObject.transform);
                 marca.transform.position = Input.mousePosition;
-
-                // Lógica de acierto/error (puedes añadir puntos aquí después)
-                if (intentandoAprobar == doc.Valido)
-                {
-                    Debug.Log("¡Acción correcta!");
-                }
-                else
-                {
-                    Debug.Log("¡Error de juicio!");
-                }
-
-                // QUITAMOS EL DOCUMENTO
-                // En lugar de un Destroy inmediato, podemos llamar a una función que lo anime o lo saque
-                Destroy(hit.gameObject, 0.5f); // Se destruye tras medio segundo para que se vea el sello puesto
                 
-                break; 
+                // Rotación aleatoria para que se vea más real
+                marca.transform.rotation = Quaternion.Euler(0, 0, Random.Range(-15f, 15f));
+
+                // 4. ELIMINAR DOCUMENTO
+                doc.SerRecogido();
+                
+                break; // Solo sellamos el primer documento que toque el raycast
             }
         }
     }

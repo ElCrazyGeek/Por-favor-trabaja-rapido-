@@ -23,4 +23,14 @@ public class Documento_Spawner : MonoBehaviour
         RectTransform rt = nuevoDoc.GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(Random.Range(-300f, 300f), Random.Range(-200f, 200f));
     }
+    public void GenerarNuevaOleada(int nuevaCantidad)
+{
+    // Limpieza opcional: si quieres que la mesa se vacíe antes de la nueva carga
+    // (Opcional, si quieres pánico real, deja los que ya estaban)
+    
+    for (int i = 0; i < nuevaCantidad; i++)
+    {
+        GenerarDocumento();
+    }
+}
 }
