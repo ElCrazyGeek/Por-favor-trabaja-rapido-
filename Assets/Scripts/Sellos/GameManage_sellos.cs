@@ -82,7 +82,7 @@ public class GameManager_Sellos : MonoBehaviour
             desempenoActual = Mathf.Clamp01(desempenoActual - penalizacion);
             StartCoroutine(MostrarFeedback(false));
 
-            // CHEQUEO DE MUERTE INSTANTÁNEA POR ERRORES
+
             if (erroresEnEstaRonda > limiteErroresRonda)
             {
                 FinDelJuego("DESPEDIDO (DEMASIADOS ERRORES)");
@@ -117,8 +117,6 @@ public class GameManager_Sellos : MonoBehaviour
 
         spawner.GenerarNuevaOleada(documentosTotalesRonda); 
     }
-
-    // ... (Mantén tus funciones de EvaluarRonda, SecuenciaGrito, FinDelJuego y Feedback igual) ...
 
     void EvaluarRonda()
     {
