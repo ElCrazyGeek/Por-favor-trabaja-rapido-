@@ -281,10 +281,10 @@ RectTransform:
   - {fileID: 357934669533476414}
   m_Father: {fileID: 876115196183520775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6570086321940293266
 CanvasRenderer:
@@ -1396,10 +1396,10 @@ RectTransform:
   - {fileID: 3391625200573193664}
   m_Father: {fileID: 876115196183520775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4908017264339578310
 CanvasRenderer:
@@ -1457,27 +1457,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1483553947913831032, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1483553947913831032, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1483553947913831032, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1483553947913831032, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1483553947913831032, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 504
       objectReference: {fileID: 0}
     - target: {fileID: 1483553947913831032, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 284
       objectReference: {fileID: 0}
     - target: {fileID: 1483553947913831032, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1533,7 +1533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1803320769693993685, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_Name
-      value: Grapadora Variant
+      value: Grapadora minijuego
       objectReference: {fileID: 0}
     - target: {fileID: 1803320769693993685, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
       propertyPath: m_IsActive
@@ -1613,16 +1613,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a376752e13e2d6246a8ba25b84a1837f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SistemaGrapado
-  puntaGrapadora: {fileID: 1176510080990748253}
-  zonaValida: {fileID: 8203556334000110376}
-  textoIntentos: {fileID: 6230765216284263122}
-  barraTiempo: {fileID: 3435419502734537475}
-  panelVictoria: {fileID: 2490168350471503032}
-  panelDerrota: {fileID: 9008582412989076292}
-  intentosMax: 3
-  tiempoTotal: 20
-  tiempoVentana: 0.25
-  tolerancia: 40
+  spawnPoint: {fileID: 0}
+  miniGamePrefabs: []
+  panelDeBotones: {fileID: 0}
 --- !u!1 &2846296661870806934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4557117180313854953, guid: 99050db8f5326b84aa8433a94c6e028a, type: 3}
