@@ -10,7 +10,16 @@ public class SistemaGrapado : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI textoIntentos;
-    public Image barraTiempo;
+
+    public Slider barraTiempo;
+    public Image fillTiempo; // 👈 IMPORTANTE (el Fill del slider)
+
+    public Gradient gradienteTiempo;
+    public float umbralPeligro = 0.25f;
+
+    public float velocidadParpadeo = 8f;
+    public float intensidadShake = 5f;
+
     public GameObject panelVictoria;
     public GameObject panelDerrota;
 
@@ -18,7 +27,6 @@ public class SistemaGrapado : MonoBehaviour
     public int intentosMax = 3;
     public float tiempoTotal = 4f;
     public float tiempoVentana = 0.25f;
-    public float tolerancia = 40f;
 
     private int intentosActuales;
     private float timerTotal;
@@ -26,6 +34,8 @@ public class SistemaGrapado : MonoBehaviour
 
     private bool ventanaActiva = false;
     private bool activo = true;
+
+    private Vector3 posicionOriginalBarra;
 
     void Start()
     {
@@ -35,65 +45,88 @@ public class SistemaGrapado : MonoBehaviour
         panelVictoria.SetActive(false);
         panelDerrota.SetActive(false);
 
+        posicionOriginalBarra = fillTiempo.rectTransform.anchoredPosition;
+
         ActualizarUI();
     }
 
     void Update()
-{
-    if (!activo) return;
-
-    timerTotal -= Time.deltaTime;
-    barraTiempo.fillAmount = timerTotal / tiempoTotal;
-
-    if (timerTotal <= 0)
     {
-        Perder("Tiempo agotado");
-    }
+        if (!activo) return;
 
-    bool enZona = GetWorldRect(puntaGrapadora)
-                  .Overlaps(GetWorldRect(zonaValida));
+        // ⏳ Tiempo
+        timerTotal -= Time.deltaTime;
+        float porcentaje = timerTotal / tiempoTotal;
 
-    if (enZona && !ventanaActiva)
-    {
-        ventanaActiva = true;
-        timerVentana = tiempoVentana;
-    }
+        barraTiempo.value = porcentaje;
 
-    if (ventanaActiva)
-    {
-        timerVentana -= Time.deltaTime;
+        // 🎨 Color con Gradient
+        fillTiempo.color = gradienteTiempo.Evaluate(porcentaje);
 
-        if (timerVentana <= 0)
+        // ⚠️ Peligro (parpadeo + shake)
+        if (porcentaje <= umbralPeligro)
         {
-            ventanaActiva = false;
-        }
-    }
+            float t = Mathf.Abs(Mathf.Sin(Time.time * velocidadParpadeo));
+            fillTiempo.color = Color.Lerp(Color.red, Color.white, t);
 
-    if (Input.GetMouseButtonDown(0))
-    {
-        if (ventanaActiva)
-        {
-            Ganar();
+            Vector2 shake = Random.insideUnitCircle * intensidadShake;
+            fillTiempo.rectTransform.anchoredPosition = posicionOriginalBarra + (Vector3)shake;
         }
         else
         {
-            Fallo();
+            fillTiempo.rectTransform.anchoredPosition = posicionOriginalBarra;
+        }
+
+        if (timerTotal <= 0)
+        {
+            Perder("Tiempo agotado");
+        }
+
+        // 🎯 Detección real (overlap)
+        bool enZona = GetWorldRect(puntaGrapadora)
+                      .Overlaps(GetWorldRect(zonaValida));
+
+        if (enZona && !ventanaActiva)
+        {
+            ventanaActiva = true;
+            timerVentana = tiempoVentana;
+        }
+
+        if (ventanaActiva)
+        {
+            timerVentana -= Time.deltaTime;
+
+            if (timerVentana <= 0)
+            {
+                ventanaActiva = false;
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (ventanaActiva)
+            {
+                Ganar();
+            }
+            else
+            {
+                Fallo();
+            }
         }
     }
-}
 
-Rect GetWorldRect(RectTransform rt)
-{
-    Vector3[] corners = new Vector3[4];
-    rt.GetWorldCorners(corners);
+    Rect GetWorldRect(RectTransform rt)
+    {
+        Vector3[] corners = new Vector3[4];
+        rt.GetWorldCorners(corners);
 
-    float x = corners[0].x;
-    float y = corners[0].y;
-    float width = corners[2].x - corners[0].x;
-    float height = corners[2].y - corners[0].y;
+        float x = corners[0].x;
+        float y = corners[0].y;
+        float width = corners[2].x - corners[0].x;
+        float height = corners[2].y - corners[0].y;
 
-    return new Rect(x, y, width, height);
-}
+        return new Rect(x, y, width, height);
+    }
 
     void Fallo()
     {
