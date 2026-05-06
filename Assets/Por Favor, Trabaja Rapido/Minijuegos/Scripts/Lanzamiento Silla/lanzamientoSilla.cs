@@ -13,12 +13,20 @@ public class lanzamientoSilla : MonoBehaviour
 
     [SerializeField] private Image barraFuerza;
 
+    
+
     private bool isHolding;
 
    [SerializeField] private float fuerzaMaxima;
     [SerializeField] private float velocidadAumento;
 
+    [SerializeField] private GameObject canvasMinijuego;
 
+
+    [Header ("Reinicio de la silla")]
+    [SerializeField] private bool lanzo;
+    private Vector3 posicionInicialSilla;
+     [SerializeField] private float velocidad;
 
     
     
@@ -27,6 +35,7 @@ public class lanzamientoSilla : MonoBehaviour
     {
         direccion =180;
         fuerza=0;
+        posicionInicialSilla = silla.transform.position;
     }
 
     // Update is called once per frame
@@ -39,6 +48,15 @@ public class lanzamientoSilla : MonoBehaviour
         {
             aumentarFuerza();
         }
+
+        velocidad = rbSilla.linearVelocity.magnitude;
+
+
+        if(velocidad<0.5 && lanzo)
+        {
+            silla.transform.position = posicionInicialSilla;
+            lanzo=false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,6 +65,7 @@ public class lanzamientoSilla : MonoBehaviour
         {
             managerGlobal.instance.ganoMinijuego();
             Debug.Log("Ganaste el minijuego");
+            canvasMinijuego.SetActive(false);
         }
     }
     
@@ -56,14 +75,14 @@ public class lanzamientoSilla : MonoBehaviour
 
    public void cambiarDireccionDerecha()
     {
-        direccion+=10;
+        direccion+=5;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la derecha");
     }
     
     public void cambiarDireccionIzquierda()
     {
-        direccion-=10;
+        direccion-=5;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la izquierda");
     }   
@@ -96,6 +115,8 @@ public class lanzamientoSilla : MonoBehaviour
     public void pointerUp()
     {
         isHolding=false;
+        lanzarSilla();
+        lanzo=true;
     }
 
   
