@@ -22,11 +22,16 @@ public class lanzamientoSilla : MonoBehaviour
 
     [SerializeField] private GameObject canvasMinijuego;
 
+     [SerializeField] private int fallos;
+     private bool fallo;
+     private bool seComprobo;
 
     [Header ("Reinicio de la silla")]
     [SerializeField] private bool lanzo;
     private Vector3 posicionInicialSilla;
      [SerializeField] private float velocidad;
+     [SerializeField] private float tiempoReinicio;
+
 
     
     
@@ -36,6 +41,7 @@ public class lanzamientoSilla : MonoBehaviour
         direccion =180;
         fuerza=0;
         posicionInicialSilla = silla.transform.position;
+        tiempoReinicio=1f;
     }
 
     // Update is called once per frame
@@ -52,10 +58,23 @@ public class lanzamientoSilla : MonoBehaviour
         velocidad = rbSilla.linearVelocity.magnitude;
 
 
-        if(velocidad<0.5 && lanzo)
+        if(velocidad<0.7 && lanzo)
         {
-            silla.transform.position = posicionInicialSilla;
+            tiempoReinicio-=Time.deltaTime;
+        }
+
+        if (tiempoReinicio <= 0)
+        {
+             silla.transform.position = posicionInicialSilla;
+             
+            fallos++;
+            tiempoReinicio=1f;
             lanzo=false;
+        }
+
+        if(fallos == 3)
+        {
+            managerGlobal.instance.perdioMinijuego();
         }
     }
 
@@ -66,8 +85,13 @@ public class lanzamientoSilla : MonoBehaviour
             managerGlobal.instance.ganoMinijuego();
             Debug.Log("Ganaste el minijuego");
             canvasMinijuego.SetActive(false);
+            
+           
         }
     }
+
+
+    
     
 
 
@@ -90,7 +114,8 @@ public class lanzamientoSilla : MonoBehaviour
     public void lanzarSilla()
     {
        rbSilla.AddForce((silla.transform.forward + silla.transform.up * 0.2f) * fuerza, ForceMode.Impulse);
-    
+       lanzo=true;
+        
     }
 
     public void aumentarFuerza()
@@ -109,14 +134,15 @@ public class lanzamientoSilla : MonoBehaviour
     public void pointerDown()
     {
         isHolding=true;
+        
     }
 
 
     public void pointerUp()
     {
         isHolding=false;
-        lanzarSilla();
-        lanzo=true;
+        lanzarSilla();  
+       
     }
 
   

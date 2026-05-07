@@ -14,7 +14,7 @@ public class managerLanzamiento : MonoBehaviour
         cambiarInterfaces.instance.obtenerPrefab(gameObject);
 
         posicionMeta = Random.Range(-5,5);
-        meta.localPosition = new Vector3(posicionMeta,meta.localPosition.y,meta.localPosition.z);
+        meta.localPosition = new Vector3(meta.localPosition.x+posicionMeta,meta.localPosition.y,meta.localPosition.z);
 
 
         StopAllCoroutines();
