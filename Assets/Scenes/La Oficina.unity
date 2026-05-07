@@ -768,15 +768,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 580643673220121886, guid: 7e22a69e9504c0942ad6727e27d6e9e0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1745749
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 580643673220121886, guid: 7e22a69e9504c0942ad6727e27d6e9e0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 27.357721
+      value: 27.28
       objectReference: {fileID: 0}
     - target: {fileID: 580643673220121886, guid: 7e22a69e9504c0942ad6727e27d6e9e0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 22.010523
+      value: 21.8
       objectReference: {fileID: 0}
     - target: {fileID: 580643673220121886, guid: 7e22a69e9504c0942ad6727e27d6e9e0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3968,7 +3968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2551497602499400005, guid: 2fb267432981ff042b509f0b7d491ebc, type: 3}
       propertyPath: Priority.m_Value
-      value: 25
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2551497602499400005, guid: 2fb267432981ff042b509f0b7d491ebc, type: 3}
       propertyPath: Target.TrackingTarget
@@ -4073,6 +4073,10 @@ PrefabInstance:
     - target: {fileID: 6939113698565578040, guid: 2fb267432981ff042b509f0b7d491ebc, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6939113698565578040, guid: 2fb267432981ff042b509f0b7d491ebc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7907502934375463362, guid: 2fb267432981ff042b509f0b7d491ebc, type: 3}
       propertyPath: m_Layer

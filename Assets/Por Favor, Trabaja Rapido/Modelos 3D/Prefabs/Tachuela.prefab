@@ -62,15 +62,18 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f148e98dd37e2d49af012b386bb9919, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9181615732583156499}
+      addedObject: {fileID: 8509411676483363149}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f148e98dd37e2d49af012b386bb9919, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5122125022812835954}
   m_SourcePrefab: {fileID: 100100000, guid: 6f148e98dd37e2d49af012b386bb9919, type: 3}
 --- !u!1 &235608800603496356 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f148e98dd37e2d49af012b386bb9919, type: 3}
   m_PrefabInstance: {fileID: 1118129818523689717}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &9181615732583156499
-CapsuleCollider:
+--- !u!65 &8509411676483363149
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -87,8 +90,33 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.027903795
-  m_Height: 0.12557983
-  m_Direction: 0
-  m_Center: {x: -19.055378, y: 1.66, z: -28.966925}
+  serializedVersion: 3
+  m_Size: {x: 0.044765472, y: 0.035215616, z: 0.028198242}
+  m_Center: {x: -19.093004, y: 1.6571027, z: -28.969395}
+--- !u!54 &5122125022812835954
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235608800603496356}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
