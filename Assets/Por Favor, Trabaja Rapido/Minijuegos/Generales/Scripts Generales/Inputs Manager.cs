@@ -67,16 +67,17 @@ public class InputsManager : MonoBehaviour
     }
 
     private IInteractable ObtenerInteractuable()
+{
+    Vector2 mousePos = Mouse.current.position.ReadValue();
+    Ray ray = camara.ScreenPointToRay(mousePos);
+
+    if (Physics.Raycast(ray, out RaycastHit hit, 100f, Interaccion))
     {
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-        Ray ray = camara.ScreenPointToRay(mousePos);
-
-        Debug.DrawRay(ray.origin, ray.direction * 30f, Color.green, 0.1f);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 30f, Interaccion))
-        {
-            return hit.collider.GetComponent<IInteractable>();
-        }
-        return null;
+        Debug.Log("Raycast chocó con: " + hit.collider.gameObject.name); // <--- AGREGA ESTO
+        return hit.collider.GetComponent<IInteractable>();
     }
+    
+    Debug.Log("El Raycast no chocó con nada en la capa Interaccion"); // <--- AGREGA ESTO
+    return null;
+}
 }
