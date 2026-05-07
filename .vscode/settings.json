@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Por-favor-trabaja-rapido-.slnx",
+    "dotnet.defaultSolution": "Por favor trabaja rapido.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
