@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Objetivo
   - Documento
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interaccion
   - Water
   - UI
   - IU de minujuegos

@@ -1,0 +1,55 @@
+{
+    "version": 1,
+    "name": "MapaInputsPlayer",
+    "maps": [
+        {
+            "name": "playerMap",
+            "id": "305d87ed-adb4-424e-a0ed-8e8b7ac7d31a",
+            "actions": [
+                {
+                    "name": "ClicIzq",
+                    "type": "Button",
+                    "id": "6a79009a-4ef8-4ac5-934d-5f58be18c712",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.3)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MousePos",
+                    "type": "Value",
+                    "id": "ba4b9df0-b800-4243-a9dd-b43086bd019b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e0c694eb-a2d3-4c42-a22e-cad48b7d3d72",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClicIzq",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "177594c9-599d-491d-80da-bae38150624f",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
