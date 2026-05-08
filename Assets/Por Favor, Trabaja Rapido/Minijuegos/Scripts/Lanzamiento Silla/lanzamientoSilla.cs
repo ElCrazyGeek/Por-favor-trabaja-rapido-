@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class lanzamientoSilla : MonoBehaviour
 {
     [SerializeField] private float fuerza;
-    [SerializeField] private int direccion;
+    [SerializeField] private float direccion;
 
     [SerializeField] private GameObject silla;
 
@@ -16,6 +16,7 @@ public class lanzamientoSilla : MonoBehaviour
     
 
     private bool isHolding;
+    private int holdingState;
 
    [SerializeField] private float fuerzaMaxima;
     [SerializeField] private float velocidadAumento;
@@ -42,6 +43,7 @@ public class lanzamientoSilla : MonoBehaviour
         fuerza=0;
         posicionInicialSilla = silla.transform.position;
         tiempoReinicio=1f;
+        holdingState=0;
     }
 
     // Update is called once per frame
@@ -50,9 +52,19 @@ public class lanzamientoSilla : MonoBehaviour
        silla.transform.localRotation = Quaternion.Euler(0, direccion, 0);
        rellenarBarraFuerza();
 
+           if (holdingState == 1)
+            {
+                cambiarDireccionDerecha();
+            } else if (holdingState == 2)
+            {
+                cambiarDireccionIzquierda();
+            }
+
         if (isHolding)
         {
             aumentarFuerza();
+
+        
         }
 
         velocidad = rbSilla.linearVelocity.magnitude;
@@ -99,14 +111,14 @@ public class lanzamientoSilla : MonoBehaviour
 
    public void cambiarDireccionDerecha()
     {
-        direccion+=2;
+        direccion+=0.3f;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la derecha");
     }
     
     public void cambiarDireccionIzquierda()
     {
-        direccion-=2;
+        direccion-=0.3f;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la izquierda");
     }   
@@ -143,6 +155,21 @@ public class lanzamientoSilla : MonoBehaviour
         isHolding=false;
         lanzarSilla();  
        
+    }
+
+    public void girandoDerecha()
+    {
+        holdingState=1;
+    }
+
+    public void girandoIzquierda()
+    {   
+     holdingState=2;
+    }
+
+    public void sinGirar()
+    {
+        holdingState=0;
     }
 
   

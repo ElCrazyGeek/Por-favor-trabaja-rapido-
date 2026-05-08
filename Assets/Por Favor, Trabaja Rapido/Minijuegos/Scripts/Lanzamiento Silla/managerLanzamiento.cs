@@ -8,6 +8,8 @@ public class managerLanzamiento : MonoBehaviour
     [SerializeField] private float posicionMeta;
 
     [SerializeField] private Transform meta;
+
+    [SerializeField] private GameObject canvasMinijuego;
      void Start()
     {
         managerGlobal.instance.empezoMinijuego();
@@ -33,6 +35,7 @@ public class managerLanzamiento : MonoBehaviour
         if (tiempoMaximo <= 0)
         {
             managerGlobal.instance.perdioMinijuego();
+            canvasMinijuego.SetActive(false);
         }
 
         managerGlobal.instance.actualizarTiempo(tiempoMaximo);
