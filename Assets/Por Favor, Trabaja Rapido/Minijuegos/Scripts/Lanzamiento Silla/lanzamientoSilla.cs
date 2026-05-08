@@ -99,14 +99,14 @@ public class lanzamientoSilla : MonoBehaviour
 
    public void cambiarDireccionDerecha()
     {
-        direccion+=5;
+        direccion+=2;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la derecha");
     }
     
     public void cambiarDireccionIzquierda()
     {
-        direccion-=5;
+        direccion-=2;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la izquierda");
     }   

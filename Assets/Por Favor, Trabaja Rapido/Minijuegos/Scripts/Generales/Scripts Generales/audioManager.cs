@@ -7,9 +7,13 @@ public class audioManager : MonoBehaviour
 
      public AudioSource UISource;
 
+     public AudioSource musicSource;
+
      public static audioManager instance;
 
     public AudioClip clickSFX;
+
+    public AudioClip[] musica;
 
     [Range(0f,1f)]
     public float volumenSFX;
@@ -78,5 +82,15 @@ public class audioManager : MonoBehaviour
     public void reproducirUISFX()
     {
         UISource.PlayOneShot(clickSFX, volumenSFX);
+    }
+
+    public void reproducirMusica(int musicaActual)
+    {
+        if(musicSource.clip==musica[musicaActual] && musicSource.isPlaying) return;
+
+        musicSource.clip = musica[musicaActual];
+        musicSource.loop = true;
+        musicSource.Play();
+        
     }
 }

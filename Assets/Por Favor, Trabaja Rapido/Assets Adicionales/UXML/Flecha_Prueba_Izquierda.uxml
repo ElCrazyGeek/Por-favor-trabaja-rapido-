@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Image source="project://database/Assets/Por%20Favor,%20Trabaja%20Rapido/Assets%20Adicionales/Iconos/left-arrow-icon.svg?fileID=7388822144124034973&amp;guid=81180f1b009ffae4d8b647395bee5a98&amp;type=3#left-arrow-icon"/>
+</ui:UXML>

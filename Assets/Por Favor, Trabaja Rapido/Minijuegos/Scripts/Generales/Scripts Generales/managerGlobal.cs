@@ -36,9 +36,21 @@ public class managerGlobal : MonoBehaviour
         posicionInicialTexto = textoInicio.transform.localPosition;
     }
 
-  
 
-    
+    void Update()
+    {
+        if (puedeJugar)
+        {
+            audioManager.instance.reproducirMusica(2);
+        } else
+        {
+            audioManager.instance.reproducirMusica(1);
+        }
+    }
+
+
+
+
 
     public void empezoMinijuego()
     {
