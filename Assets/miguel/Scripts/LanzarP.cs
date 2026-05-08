@@ -1,36 +1,49 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LanzarP : MonoBehaviour
 {
-   
-   public GameObject prefabPelota;
-   public Transform puntoLanzamiento;
-   [Header("Configuración de Fuerza")]
-   public float fuerzaMinima = 5f;
-   public float fuerzaMaxima = 30f; 
-   public float VelocidadCarga = 10f;
-   [Range(0,90)] public float AnguloLanzamiento = 45f;
+    public GameObject prefabPelota;
+    public Transform puntoLanzamiento;
+    
+    [Header("UI")]
+    public Slider barraFuerza;
+    public Image rellenoBarra; // Arrastra el objeto "Fill" aquí
+    public Gradient coloresBarra; // Aquí configurarás los colores
 
-   private float FuerzaAct;
-   private bool cargando = false;
+    [Header("Configuración de Fuerza")]
+    public float fuerzaMinima = 5f;
+    public float fuerzaMaxima = 30f; 
+    public float VelocidadCarga = 10f;
+    [Range(0,90)] public float AnguloLanzamiento = 45f;
+
+    private float FuerzaAct;
+    private bool cargando = false;
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) 
         {
             cargando = true;
-            FuerzaAct = fuerzaMinima; 
+            FuerzaAct = fuerzaMinima;
         }
         else if (Input.GetMouseButton(0) && cargando) 
         {
-            
             FuerzaAct += VelocidadCarga * Time.deltaTime;
-            if (FuerzaAct > fuerzaMaxima)
-                FuerzaAct = fuerzaMaxima;
+            FuerzaAct = Mathf.Clamp(FuerzaAct, fuerzaMinima, fuerzaMaxima);
+
+            if (barraFuerza != null) 
+            {
+                barraFuerza.value = FuerzaAct;
+                float normalizado = (FuerzaAct - fuerzaMinima) / (fuerzaMaxima - fuerzaMinima);
+                rellenoBarra.color = coloresBarra.Evaluate(normalizado);
+            }
         }
         else if (Input.GetMouseButtonUp(0) && cargando) 
         {
             Lanzar();
+            cargando = false;
+            if (barraFuerza != null) barraFuerza.value = fuerzaMinima;
         }
     }
 
@@ -41,12 +54,9 @@ public class LanzarP : MonoBehaviour
         if(rb != null)
         {
             Vector3 direccion = puntoLanzamiento.forward;
-            direccion = Quaternion.AngleAxis(-AnguloLanzamiento, puntoLanzamiento.right) * direccion; // Aplicar ángulo de lanzamiento
+            direccion = Quaternion.AngleAxis(-AnguloLanzamiento, puntoLanzamiento.right) * direccion;
             rb.AddForce(direccion * FuerzaAct, ForceMode.Impulse);
         }
-        Destroy(pelota, 10f); //Borrar pelotas después de 10 segundos
+        Destroy(pelota, 10f);
     }
-   
-
-   
 }

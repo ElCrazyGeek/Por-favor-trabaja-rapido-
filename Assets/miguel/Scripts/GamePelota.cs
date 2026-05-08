@@ -1,32 +1,34 @@
 using UnityEngine;
-using TMPro; // Necesitas tener instalado TextMeshPro
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GamePelota : MonoBehaviour
 {
-    public int puntosParaGanar = 5;
+    [Header("Configuración")]
+    public int puntosParaGanar = 3;
     public float tiempoRestante = 60f;
-    
+    public float retrasoParaSiguienteNivel = 3f; // Segundos de espera antes de cambiar
     private int puntosActuales = 0;
     private bool juegoTerminado = false;
 
-    public TextMeshProUGUI textoPuntos; // Arrastra un texto de UI aquí
-    public TextMeshProUGUI textoTiempo;  // Arrastra otro texto de UI aquí
-    public GameObject panelVictoria;    // Un panel que se active al ganar
+    [Header("Referencias UI")]
+    public TextMeshProUGUI textoPuntos;
+    public TextMeshProUGUI textoTiempo;
+    public GameObject panelVictoria; 
+    public GameObject panelDerrota;  
 
     void Update()
     {
         if (juegoTerminado) return;
 
-        // Manejo del tiempo
         if (tiempoRestante > 0)
         {
             tiempoRestante -= Time.deltaTime;
-            ActualizarInterfaz();
+            textoTiempo.text = "Tiempo: " + Mathf.Ceil(tiempoRestante).ToString();
         }
         else
         {
-            TerminarJuego(false); // Perdió por tiempo
+            FinalizarJuego(false);
         }
     }
 
@@ -35,32 +37,40 @@ public class GamePelota : MonoBehaviour
         if (juegoTerminado) return;
 
         puntosActuales++;
-        ActualizarInterfaz();
+        textoPuntos.text = "Puntos: " + puntosActuales;
 
         if (puntosActuales >= puntosParaGanar)
         {
-            TerminarJuego(true); // Ganó
+            FinalizarJuego(true);
         }
     }
 
-    void ActualizarInterfaz()
-    {
-        textoPuntos.text = "Puntos: " + puntosActuales;
-        textoTiempo.text = "Tiempo: " + Mathf.Ceil(tiempoRestante).ToString();
-    }
-
-    void TerminarJuego(bool victoria)
+    void FinalizarJuego(bool victoria)
     {
         juegoTerminado = true;
+
         if (victoria)
         {
-            Debug.Log("¡Ganaste!");
             panelVictoria.SetActive(true);
+            // Llama a la función SiguienteNivel después de X segundos
+            Invoke("SiguienteNivel", retrasoParaSiguienteNivel);
         }
         else
         {
-            Debug.Log("Juego Terminado - Se acabó el tiempo");
-            // Aquí podrías reiniciar la escena: SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            panelDerrota.SetActive(true);
+            Time.timeScale = 0f; // Solo pausamos si pierde para que pueda picar el botón
         }
+    }
+
+    public void SiguienteNivel()
+    {
+       Time.timeScale = 0f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void VolverAlMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MenuPrincipal");
     }
 }
