@@ -33,7 +33,7 @@ public class LogicaTachuela : MonoBehaviour
 
         Rigidbody rb = tachuela.GetComponent<Rigidbody>();
 
-        Debug.Log($"La bala hizo spawn en la pos: {tachuela.transform.position}");
+        Logger.Instance.Log($"La bala hizo spawn en la pos: {tachuela.transform.position}",this);
 
         rb.AddForce(spawnTachuela.right * actForce, ForceMode.Impulse);
     }

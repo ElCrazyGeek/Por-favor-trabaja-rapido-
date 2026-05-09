@@ -9,12 +9,12 @@ public class InputHandler : MonoBehaviour
         if (context.performed)
         {
             isPressed = true;
-            Debug.Log("Presionado");
+            Logger.Instance.Log("Presionado", this);
         }
         if (context.canceled)
         {
             isPressed = false;
-            Debug.Log("NAO NAO");
+            Logger.Instance.Log("NAO NAOOO", this);
         }
     }
 }
