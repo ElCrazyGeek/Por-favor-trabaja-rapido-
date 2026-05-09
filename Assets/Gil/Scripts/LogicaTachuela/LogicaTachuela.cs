@@ -29,7 +29,7 @@ public class LogicaTachuela : MonoBehaviour
 
     private void LanzarTachuela()
     {
-        GameObject tachuela = Instantiate(prefabTachuela, spawnTachuela.position, Quaternion.identity);
+        GameObject tachuela = Instantiate(prefabTachuela, spawnTachuela.position, Quaternion.Euler(0,0,180));
 
         Rigidbody rb = tachuela.GetComponent<Rigidbody>();
 
