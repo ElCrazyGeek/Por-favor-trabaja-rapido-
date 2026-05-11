@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class SistemaGrapado : MonoBehaviour
 {
@@ -102,7 +103,7 @@ public class SistemaGrapado : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             if (ventanaActiva)
             {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Grapadora : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Grapadora : MonoBehaviour
         Vector2 pos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             rect.parent as RectTransform,
-            Input.mousePosition,
+           Mouse.current.position.ReadValue(),
             null,
             out pos
         );

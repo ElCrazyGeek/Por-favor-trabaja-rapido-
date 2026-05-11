@@ -16,7 +16,7 @@ public class InputsManager : MonoBehaviour
 
     public void OnClick(InputAction.CallbackContext context)
 {
-   
+   Debug.Log("OnClick se ejecutó");
     if (context.started)
     {
         inicioClick = Time.time;
@@ -68,36 +68,27 @@ public class InputsManager : MonoBehaviour
         }
     }
 
-    private IInteractable ObtenerInteractuable()
+   private IInteractable ObtenerInteractuable()
 {
     Vector2 mousePos = Mouse.current.position.ReadValue();
     Ray ray = camara.ScreenPointToRay(mousePos);
 
-    if (Physics.Raycast(ray, out RaycastHit hit, 100f, Interaccion))
+    Debug.DrawRay(ray.origin, ray.direction * 30f, Color.green, 0.1f);
+
+    if (Physics.Raycast(ray, out RaycastHit hit, 30f, Interaccion))
     {
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-        Ray ray = camara.ScreenPointToRay(mousePos);
+        MonoBehaviour[] componentes = hit.collider.GetComponentsInParent<MonoBehaviour>();
 
-        Debug.DrawRay(ray.origin, ray.direction * 30f, Color.green, 0.1f);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 30f, Interaccion))
+        foreach (MonoBehaviour comp in componentes)
         {
-            MonoBehaviour[] componentes = hit.collider.GetComponentsInParent<MonoBehaviour>();
-
-            foreach(MonoBehaviour comp in componentes)
+            if (comp is IInteractable interactuable)
             {
-                if(comp is IInteractable interactuable)
-                {
-                    return interactuable;
-                }
+                return interactuable;
             }
-
-            
         }
-        return null;
     }
-    
-    Debug.Log("El Raycast no chocó con nada en la capa Interaccion"); // <--- AGREGA ESTO
+
+    Debug.Log("El Raycast no chocó con nada en la capa Interaccion");
     return null;
 }
 }
