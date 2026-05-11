@@ -49,6 +49,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "DardoSystem",
+            "id": "ea081ac3-23b5-4804-813c-9071c4419d8a",
+            "actions": [
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "a971b311-2442-4a16-a97c-71f5edd152f3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "586b3e13-aae6-4b5d-a219-e96f290e37e9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

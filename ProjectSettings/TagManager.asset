@@ -6,6 +6,10 @@ TagManager:
   tags:
   - WinCondition
   - CameraTarget
+  - Objetivo
+  - Documento
+  - Diana(tachuela)
+  - Dartboard
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - Interaccion
   - Water
   - UI
-  - 
+  - IU de minujuegos
   - 
   - 
   - 
