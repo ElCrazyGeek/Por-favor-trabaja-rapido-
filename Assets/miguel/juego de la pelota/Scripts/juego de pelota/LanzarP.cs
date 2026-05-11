@@ -8,20 +8,43 @@ public class LanzarP : MonoBehaviour
     
     [Header("UI")]
     public Slider barraFuerza;
-    public Image rellenoBarra; // Arrastra el objeto "Fill" aquí
-    public Gradient coloresBarra; // Aquí configurarás los colores
+    public Image rellenoBarra; 
+    public Gradient coloresBarra; 
 
     [Header("Configuración de Fuerza")]
     public float fuerzaMinima = 5f;
     public float fuerzaMaxima = 30f; 
     public float VelocidadCarga = 10f;
     [Range(0,90)] public float AnguloLanzamiento = 45f;
+    
+    private GamePelota gameManager; 
 
     private float FuerzaAct;
     private bool cargando = false;
 
+    void Start()
+    {
+        
+        gameManager = Object.FindAnyObjectByType<GamePelota>();
+
+        
+        if (barraFuerza != null)
+        {
+            barraFuerza.minValue = fuerzaMinima;
+            barraFuerza.maxValue = fuerzaMaxima;
+            barraFuerza.value = fuerzaMinima;
+        }
+    }
+
     void Update()
     {
+        
+        if (gameManager != null && gameManager.juegoTerminado) 
+        {
+            cargando = false; 
+            return; 
+        }
+
         if (Input.GetMouseButtonDown(0)) 
         {
             cargando = true;

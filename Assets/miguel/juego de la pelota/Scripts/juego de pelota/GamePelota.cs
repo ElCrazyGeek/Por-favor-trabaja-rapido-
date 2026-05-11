@@ -9,7 +9,7 @@ public class GamePelota : MonoBehaviour
     public float tiempoRestante = 60f;
     public float retrasoParaSiguienteNivel = 3f; // Segundos de espera antes de cambiar
     private int puntosActuales = 0;
-    private bool juegoTerminado = false;
+    public bool juegoTerminado = false;
 
     [Header("Referencias UI")]
     public TextMeshProUGUI textoPuntos;

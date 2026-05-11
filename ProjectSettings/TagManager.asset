@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Pelota
+  - PapelVerde
+  - PapelMalo
+  - PapelNormal
   layers:
   - Default
   - TransparentFX
