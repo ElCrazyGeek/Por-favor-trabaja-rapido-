@@ -11,6 +11,8 @@ public class ManagerMinijuegos : MonoBehaviour
     [SerializeField] private AudioClip sfxInicio;
     [SerializeField] private GameObject primerMinijuego;
     [SerializeField] private Transform spawnPoints;
+
+    public int totalMinijuegos;
  
 
     [SerializeField] private CinemachineCamera virtualCam;
@@ -34,6 +36,7 @@ public class ManagerMinijuegos : MonoBehaviour
     {
         cargarMinijuegos();
         SiguienteMinijuego();
+        totalMinijuegos = minijuegosPrefabs.Count + 1;
     }
 
     // Update is called once per frame

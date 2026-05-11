@@ -30,6 +30,11 @@ public class cambiarInterfaces : MonoBehaviour
 
     public void continuar()
     {
+        if (ManagerMinijuegos.instance.juegosCompletados >= ManagerMinijuegos.instance.totalMinijuegos)
+        {
+            return;
+        }
+
          managerGlobal.instance.textoTotal.gameObject.SetActive(false);
          Destroy(prefab);
          prefab = null;

@@ -11,6 +11,7 @@ public class managerGlobal : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textoInicio;
      [SerializeField] public TextMeshProUGUI textoTotal;
 
+
     [SerializeField] public bool mostrarTexto;
 
     private Vector3 posicionInicialTexto;
@@ -24,6 +25,8 @@ public class managerGlobal : MonoBehaviour
     [SerializeField] private GameObject panelUI;
     [SerializeField] private GameObject panelDerrota;
     [SerializeField] public GameObject panelVictoria;
+    [SerializeField] public GameObject panelVictoriaFinal;
+    [SerializeField] private CanvasGroup globalCanvasGroup;
     
 
     [Header ("Archivos de Audio")]
@@ -63,6 +66,7 @@ public class managerGlobal : MonoBehaviour
         puedeJugar = true;
         textoInicio.gameObject.SetActive(true);
         textoTiempo.gameObject.SetActive(true);
+        globalCanvasGroup.blocksRaycasts = false;
         
         StartCoroutine(ReproducirInicio());
        
@@ -86,12 +90,25 @@ public class managerGlobal : MonoBehaviour
         {
         audioManager.instance.reproducirSFX(sfxVictoria);
         }
+
         ManagerMinijuegos.instance.juegosCompletados++;
-        textoTotal.gameObject.SetActive(true);
+
+        if(ManagerMinijuegos.instance.juegosCompletados >= ManagerMinijuegos.instance.totalMinijuegos)
+        {
+            panelDerrota.SetActive(false);
+            panelVictoriaFinal.SetActive(true);
+        } else
+        { 
+            panelVictoria.SetActive(true);
+             textoTotal.gameObject.SetActive(true);
+        }
+
+       
         textoInicio.gameObject.SetActive(false);
         textoTiempo.gameObject.SetActive(false);
-        panelVictoria.SetActive(true);
+        
         puedeJugar = false;
+        globalCanvasGroup.blocksRaycasts = true;
     }
 
     public void perdioMinijuego()
@@ -105,6 +122,7 @@ public class managerGlobal : MonoBehaviour
         textoTiempo.gameObject.SetActive(false);
         panelDerrota.SetActive(true);
         puedeJugar = false;
+        globalCanvasGroup.blocksRaycasts = true;
 
     }
 
