@@ -9,6 +9,7 @@ public class managerGlobal : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI textoTiempo;
     [SerializeField] private TextMeshProUGUI textoInicio;
+     [SerializeField] public TextMeshProUGUI textoTotal;
 
     [SerializeField] public bool mostrarTexto;
 
@@ -22,11 +23,14 @@ public class managerGlobal : MonoBehaviour
    
     [SerializeField] private GameObject panelUI;
     [SerializeField] private GameObject panelDerrota;
-    [SerializeField] private GameObject panelVictoria;
+    [SerializeField] public GameObject panelVictoria;
+    
 
     [Header ("Archivos de Audio")]
      [SerializeField] private AudioClip sfxSwoosh;
      [SerializeField] private AudioClip sfxStart;
+     [SerializeField] private AudioClip sfxVictoria;
+     [SerializeField] private AudioClip sfxDerrota;
 
 
     
@@ -41,10 +45,10 @@ public class managerGlobal : MonoBehaviour
     {
         if (puedeJugar)
         {
-            audioManager.instance.reproducirMusica(2);
+            audioManager.instance.reproducirMusica(1);
         } else
         {
-            audioManager.instance.reproducirMusica(1);
+            audioManager.instance.reproducirMusica(2);
         }
     }
 
@@ -57,6 +61,8 @@ public class managerGlobal : MonoBehaviour
         panelUI.SetActive(true);
          mostrarTexto = true;
         puedeJugar = true;
+        textoInicio.gameObject.SetActive(true);
+        textoTiempo.gameObject.SetActive(true);
         
         StartCoroutine(ReproducirInicio());
        
@@ -76,7 +82,12 @@ public class managerGlobal : MonoBehaviour
 
     public void ganoMinijuego()
     {
-        
+        if (puedeJugar)
+        {
+        audioManager.instance.reproducirSFX(sfxVictoria);
+        }
+        ManagerMinijuegos.instance.juegosCompletados++;
+        textoTotal.gameObject.SetActive(true);
         textoInicio.gameObject.SetActive(false);
         textoTiempo.gameObject.SetActive(false);
         panelVictoria.SetActive(true);
@@ -85,7 +96,11 @@ public class managerGlobal : MonoBehaviour
 
     public void perdioMinijuego()
     {
-       
+        if (puedeJugar)
+        {  
+       audioManager.instance.reproducirSFX(sfxDerrota);
+        }
+        textoTotal.gameObject.SetActive(true);
         textoInicio.gameObject.SetActive(false);
         textoTiempo.gameObject.SetActive(false);
         panelDerrota.SetActive(true);

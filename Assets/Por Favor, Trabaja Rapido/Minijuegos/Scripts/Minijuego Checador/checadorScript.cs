@@ -14,7 +14,7 @@ public class checadorScript : MonoBehaviour, IInteractable
    [SerializeField] private AudioClip sfxFeedback;
    [SerializeField] private AudioClip sfxCargando;
    [SerializeField] private AudioClip sfxDescargando;
-   [SerializeField] private AudioClip sfxVictoria;
+   
 
    enum estadoAudio {Ninguno, Cargando, Descargando};
     private estadoAudio estadoActualAudio = estadoAudio.Ninguno;
@@ -38,7 +38,7 @@ public class checadorScript : MonoBehaviour, IInteractable
             managerGlobal.instance.ganoMinijuego();
             audioManager.instance.detenerLoop(sfxCargando);
             audioManager.instance.detenerLoop(sfxDescargando);
-            audioManager.instance.reproducirSFX(sfxVictoria);
+            
             chequeado = true;
         }
 

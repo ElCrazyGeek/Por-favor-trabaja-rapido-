@@ -22,14 +22,19 @@ public class cambiarInterfaces : MonoBehaviour
 
     public void volverMenu()
     {
-        
+        managerGlobal.instance.textoTotal.gameObject.SetActive(false);
         SceneManager.LoadScene("Menu Principal");
+       
+
     }
 
     public void continuar()
     {
+         managerGlobal.instance.textoTotal.gameObject.SetActive(false);
          Destroy(prefab);
          prefab = null;
+          ManagerMinijuegos.instance.SiguienteMinijuego();
+          managerGlobal.instance.panelVictoria.SetActive(false);
     }
 
     public void obtenerPrefab(GameObject prefabMinijuego)

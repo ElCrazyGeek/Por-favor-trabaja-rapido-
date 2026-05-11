@@ -8,12 +8,12 @@
             "actions": [
                 {
                     "name": "ClicIzq",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "6a79009a-4ef8-4ac5-934d-5f58be18c712",
-                    "expectedControlType": "",
+                    "expectedControlType": "Touch",
                     "processors": "",
-                    "interactions": "Hold(duration=0.3)",
-                    "initialStateCheck": false
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "MousePos",

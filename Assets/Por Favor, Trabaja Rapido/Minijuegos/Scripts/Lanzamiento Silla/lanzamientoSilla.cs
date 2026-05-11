@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ public class lanzamientoSilla : MonoBehaviour
     [SerializeField] private Rigidbody rbSilla;
 
     [SerializeField] private Image barraFuerza;
+
+    [SerializeField] private GameObject[] tachaFallos;
 
     
 
@@ -34,6 +37,20 @@ public class lanzamientoSilla : MonoBehaviour
      [SerializeField] private float tiempoReinicio;
 
 
+     [Header ("Archivos de Audio")]
+
+     [SerializeField] private AudioClip sfxSillaRodando;
+     [SerializeField] private AudioClip sfxSillaChoco;
+     [SerializeField] private AudioClip sfxBotonGirar;
+     [SerializeField] private AudioClip sfxBotonEmpujar;
+
+     private float cooldoownSFX=0.1f;
+     private float ultimoSonido;
+
+     private bool yaSono;
+     
+
+
     
     
     
@@ -44,6 +61,11 @@ public class lanzamientoSilla : MonoBehaviour
         posicionInicialSilla = silla.transform.position;
         tiempoReinicio=1f;
         holdingState=0;
+
+        for(int i = 0; i < tachaFallos.Length; i++)
+        {
+            tachaFallos[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -51,6 +73,7 @@ public class lanzamientoSilla : MonoBehaviour
     {
        silla.transform.localRotation = Quaternion.Euler(0, direccion, 0);
        rellenarBarraFuerza();
+       
 
            if (holdingState == 1)
             {
@@ -69,24 +92,39 @@ public class lanzamientoSilla : MonoBehaviour
 
         velocidad = rbSilla.linearVelocity.magnitude;
 
+        if(lanzo && velocidad > 0.7)
+        {
+            if (!yaSono)
+            {
+            audioManager.instance.reproducirSFX(sfxSillaRodando);
+                yaSono=true;
+            }
+        }
 
-        if(velocidad<0.7 && lanzo)
+        if(velocidad<0.7 && lanzo && managerGlobal.instance.puedeJugar)
         {
             tiempoReinicio-=Time.deltaTime;
         }
+        
 
-        if (tiempoReinicio <= 0)
+        if (tiempoReinicio <= 0 && managerGlobal.instance.puedeJugar)
         {
              silla.transform.position = posicionInicialSilla;
              
             fallos++;
             tiempoReinicio=1f;
             lanzo=false;
+            yaSono=false;
+            direccion=180;
+            fuerza=0;
         }
+
+        actualizarFallos();
 
         if(fallos == 3)
         {
             managerGlobal.instance.perdioMinijuego();
+            canvasMinijuego.SetActive(false);
         }
     }
 
@@ -103,22 +141,51 @@ public class lanzamientoSilla : MonoBehaviour
     }
 
 
-    
-    
-
-
-  
-
-   public void cambiarDireccionDerecha()
+    void OnCollisionEnter(Collision collision)
     {
-        direccion+=0.3f;
+
+        if(Time.time >= ultimoSonido + cooldoownSFX)
+        {
+        audioManager.instance.reproducirSFX(sfxSillaChoco);
+            ultimoSonido=Time.time;
+        }
+    }
+
+    private void actualizarFallos()
+    {
+        if (fallos > 0)
+        {
+            tachaFallos[0].SetActive(true);
+        } 
+
+         if(fallos > 1)
+        {
+            tachaFallos[1].SetActive(true);
+        } 
+        
+         if(fallos > 2)
+        {
+            tachaFallos[2].SetActive(true);
+        }
+    }
+
+
+
+
+
+
+
+
+    public void cambiarDireccionDerecha()
+    {
+        direccion+=0.8f;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la derecha");
     }
     
     public void cambiarDireccionIzquierda()
     {
-        direccion-=0.3f;
+        direccion-=0.8f;
         direccion = Mathf.Clamp(direccion, 110, 250);
         Debug.Log("Cambiando direccion a la izquierda");
     }   
@@ -153,7 +220,10 @@ public class lanzamientoSilla : MonoBehaviour
     public void pointerUp()
     {
         isHolding=false;
+        
         lanzarSilla();  
+
+        audioManager.instance.reproducirSFX(sfxBotonGirar);
        
     }
 
@@ -170,6 +240,7 @@ public class lanzamientoSilla : MonoBehaviour
     public void sinGirar()
     {
         holdingState=0;
+        audioManager.instance.reproducirSFX(sfxBotonGirar);
     }
 
   

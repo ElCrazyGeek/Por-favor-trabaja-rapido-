@@ -15,42 +15,44 @@ public class InputsManager : MonoBehaviour
     private IInteractable objetoActual; 
 
     public void OnClick(InputAction.CallbackContext context)
+{
+   
+    if (context.started)
     {
-        if (context.started)
-        {
-            inicioClick = Time.time;
-            manteniendoClick = true;
-            isHolding = false;
-            
-            objetoActual = ObtenerInteractuable();
-
-            if(objetoActual == null)
-            {
-                manteniendoClick=false; 
-            }
-        }
-
-        if (context.canceled)
-        {
-            float duracionClick = Time.time - inicioClick;
-            manteniendoClick = false;
-
-            if (objetoActual != null)
-            {
-
-                 if(!isHolding)
-                {          
-                    objetoActual.OnClick();
-                } 
-                else
-                {
-                    objetoActual.OnCancel();
-                }
-            }
-
-            objetoActual = null; 
-        }
+        inicioClick = Time.time;
+        manteniendoClick = true;
+        isHolding = false;
+        
+        objetoActual = ObtenerInteractuable();
+        
+        if(objetoActual == null) manteniendoClick = false;
     }
+
+    
+    if (context.canceled)
+    {
+        if (objetoActual != null)
+        {
+            if (!isHolding)
+            {
+                
+                Debug.Log("Click detectado!");
+                objetoActual.OnClick();
+            }
+            else
+            {
+                
+                Debug.Log("Hold terminado/cancelado");
+                objetoActual.OnCancel();
+            }
+        }
+
+      
+        manteniendoClick = false;
+        isHolding = false;
+        objetoActual = null;
+    }
+}
 
     void Update()
     {
@@ -58,11 +60,11 @@ public class InputsManager : MonoBehaviour
         {  
             float tiempoActual = Time.time - inicioClick;
 
-            if(tiempoActual >= tiempoHold)
+            if(tiempoActual >= tiempoHold && !isHolding)
             {
                 isHolding = true; 
-            }
             objetoActual.OnHold();
+            }
         }
     }
 
@@ -75,7 +77,17 @@ public class InputsManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, 30f, Interaccion))
         {
-            return hit.collider.GetComponent<IInteractable>();
+            MonoBehaviour[] componentes = hit.collider.GetComponentsInParent<MonoBehaviour>();
+
+            foreach(MonoBehaviour comp in componentes)
+            {
+                if(comp is IInteractable interactuable)
+                {
+                    return interactuable;
+                }
+            }
+
+            
         }
         return null;
     }
